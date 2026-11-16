@@ -23,16 +23,6 @@ def ask_int(prompt):
             print("  Please type a number.")
 
 
-def admit(shelter):
-    species = input("  Species (dog/cat/bird): ").strip()
-    name = input("  Name: ").strip()
-    age = ask_int("  Age: ")
-    try:
-        animal = shelter.admit(species, name, age)
-    except ValueError as err:
-        print(f"  {err}")
-    else:
-        print(f"  Welcome, {animal}!")
 
 
 def roll_call(shelter):
