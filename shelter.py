@@ -28,7 +28,12 @@ class Shelter:
                 return animal
         return None
 
-    
+    def adopt(self, name):
+        """Remove an animal by name and return it, or None if not found."""
+        animal = self.find(name)
+        if animal is not None:
+            self.animals.remove(animal)
+        return animal
 
     def roll_call(self):
         return [f"{animal} says {animal.speak()}" for animal in self.animals]
