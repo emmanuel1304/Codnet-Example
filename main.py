@@ -1,9 +1,14 @@
-"""Tiny menu-driven front end for the shelter.
+"""The finished app, assembled from the petshelter package.
 
-Run it with:  python main.py
+Every line here is about talking to the human. Nothing about what a dog
+is, how saving works, or how badges are chosen: that all lives in the
+package. This file is the entry point.
+
+Run:  python main.py
 """
 
-from shelter import Shelter
+from petshelter import welcome
+from petshelter.shelter import Shelter
 
 MENU = """
 --- {name} ({count} animals) ---
@@ -23,6 +28,17 @@ def ask_int(prompt):
             print("  Please type a number.")
 
 
+def admit(shelter):
+    species = input("  Species (dog/cat/bird): ").strip()
+    name = input("  Name: ").strip()
+    age = ask_int("  Age: ")
+    try:
+        animal = shelter.admit(species, name, age)
+    except ValueError as err:
+        # Raised by create() over in animals.py and caught here.
+        print(f"  {err}")
+    else:
+        print(f"  Welcome, {animal}!")
 
 
 def roll_call(shelter):
@@ -39,6 +55,7 @@ def adopt(shelter):
 
 
 def main():
+    print(welcome())
     shelter = Shelter.load("Happy Paws")
     actions = {"1": admit, "2": roll_call, "3": adopt}
 
@@ -47,7 +64,7 @@ def main():
         choice = input("Choose: ").strip()
         if choice == "4":
             shelter.save()
-            print("Saved. Bye!")
+            print("Saved to petshelter/shelter.json. Bye!")
             return
         action = actions.get(choice)
         if action is None:
