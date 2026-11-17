@@ -1,15 +1,19 @@
-"""Animal classes - inheritance, overriding and super()."""
+"""The animal classes.
+
+This module imports nothing: it is the bottom of the pile. Everything
+depends on it, it depends on nothing.
+"""
 
 
 class Animal:
-    legs = 4
+    legs = 4                      # class attribute: shared by every Animal
 
     def __init__(self, name, age):
-        self.name = name
+        self.name = name          # instance attributes: unique to each animal
         self.age = age
 
     def speak(self):
-        return "..."
+        return "..."              # subclasses override this
 
     def play(self):
         return f"{self.name} is playing"
@@ -45,7 +49,6 @@ class Bird(Animal):
         return "Tweet"
 
 
-# Maps the name used in the CLI / data file to the class.
 SPECIES = {"dog": Dog, "cat": Cat, "bird": Bird}
 
 
@@ -56,3 +59,9 @@ def create(species, name, age):
     except KeyError:
         raise ValueError(f"unknown species: {species}")
     return cls(name, age)
+
+
+if __name__ == "__main__":
+    for species in SPECIES:
+        animal = create(species, "Test", 4)
+        print(animal, "->", animal.speak(), f"({animal.legs} legs)")
